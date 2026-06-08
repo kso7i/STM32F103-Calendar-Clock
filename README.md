@@ -1,106 +1,18 @@
-# STM32F103-Calendar-Clock
-OLED calendar clock based on STM32F103C8T6, with timer interrupt, external interrupt, and UART time setting.
-# STM32F103 Calendar Clock
+ # STM32F103 Calendar Clock / STM32F103 万年历时钟
 
 This project is an OLED calendar clock based on the **STM32F103C8T6** microcontroller.
-It uses a hardware timer interrupt to update time, an external interrupt button to start or stop the clock, and UART commands to modify the date and time.
+It uses **TIM2 timer interrupt** to update time, **USART2** to receive time-setting commands, and **PB5 external interrupt** to start or stop the clock.
 
-本项目是一个基于 **STM32F103C8T6** 的 OLED 万年历时钟实验，支持定时器计时、外部中断控制、串口校时、星期校验和闰年判断显示。
-
----
-
-## Features
-
-* Display date, weekday, time, student ID, and leap-year status on OLED
-* Use **TIM2 interrupt** to update the clock every second
-* Use **USART2** to receive commands from a serial assistant
-* Use **PB5 external interrupt** to start or stop the clock
-* Support date and time modification through UART
-* Check whether the input date and weekday match
-* Support leap year and common year judgment
-* Automatically handle date carry:
-
-  * second to minute
-  * minute to hour
-  * hour to day
-  * month-end carry
-  * leap year February 29
-  * year carry
+本项目是一个基于 **STM32F103C8T6** 的 OLED 万年历时钟实验。
+项目使用 **TIM2 定时器中断** 实现秒级计时，使用 **USART2 串口** 接收上位机校时命令，并通过 **PB5 外部中断按键** 控制时钟开始或暂停。
 
 ---
 
-## Hardware
+## Demo Display / 显示效果
 
-| Module  | Description            |
-| ------- | ---------------------- |
-| MCU     | STM32F103C8T6          |
-| Display | OLED module            |
-| UART    | USART2                 |
-| Timer   | TIM2                   |
-| Button  | PB5 external interrupt |
-| IDE     | STM32CubeMX + Keil MDK |
+Example OLED display:
 
----
-
-## Pin Configuration
-
-| Function                    | Pin                           |
-| --------------------------- | ----------------------------- |
-| USART2_TX                   | PA2                           |
-| USART2_RX                   | PA3                           |
-| Button / External Interrupt | PB5                           |
-| OLED SCL                    | According to your OLED driver |
-| OLED SDA                    | According to your OLED driver |
-
-> The OLED pins depend on the OLED driver used in the project.
-
----
-
-## STM32CubeMX Configuration
-
-### USART2
-
-| Parameter             | Value        |
-| --------------------- | ------------ |
-| Mode                  | Asynchronous |
-| Baud Rate             | 115200       |
-| Word Length           | 8 Bits       |
-| Parity                | None         |
-| Stop Bits             | 1            |
-| Hardware Flow Control | Disable      |
-
-### TIM2
-
-TIM2 is used to generate a 1-second interrupt.
-
-If the system clock is 72 MHz:
-
-| Parameter      | Value                        |
-| -------------- | ---------------------------- |
-| Clock Source   | Internal Clock               |
-| Prescaler      | 7199                         |
-| Counter Period | 9999                         |
-| NVIC           | Enable TIM2 global interrupt |
-
-Calculation:
-
-```text
-72 MHz / 7200 / 10000 = 1 Hz
-```
-
-### PB5 External Interrupt
-
-| Parameter         | Value                                                       |
-| ----------------- | ----------------------------------------------------------- |
-| GPIO Mode         | External Interrupt Mode with Falling edge trigger detection |
-| Pull-up/Pull-down | Pull-up                                                     |
-| NVIC              | Enable EXTI line interrupt                                  |
-
----
-
-## OLED Display Format
-
-Example:
+OLED 显示示例：
 
 ```text
 2026.06.08 Mon
@@ -111,6 +23,8 @@ Example:
 
 If the current year is a leap year:
 
+如果当前年份是闰年：
+
 ```text
 2028.06.08 Thu
 08:09:15
@@ -120,18 +34,152 @@ If the current year is a leap year:
 
 Display description:
 
-| Line   | Content                         |
-| ------ | ------------------------------- |
-| Line 1 | Date and weekday                |
-| Line 2 | Current time                    |
-| Line 3 | Student ID                      |
-| Line 4 | Leap year or common year status |
+显示内容说明：
+
+| Line   | English                         | 中文      |
+| ------ | ------------------------------- | ------- |
+| Line 1 | Date and weekday                | 日期和星期   |
+| Line 2 | Current time                    | 当前时间    |
+| Line 3 | Student ID                      | 学号      |
+| Line 4 | Leap year or common year status | 闰年或平年判断 |
 
 ---
 
-## UART Commands
+## Features / 功能特点
 
-The serial assistant should use:
+* Display date, weekday, time, student ID, and leap-year status on OLED
+  在 OLED 上显示日期、星期、时间、学号和闰年/平年状态
+
+* Use **TIM2 interrupt** to update the clock every second
+  使用 **TIM2 定时器中断** 每秒更新时间
+
+* Use **USART2** to receive commands from a serial assistant
+  使用 **USART2 串口** 接收上位机命令
+
+* Use **PB5 external interrupt** to start or stop the clock
+  使用 **PB5 外部中断按键** 控制时钟开始或暂停
+
+* Support UART time modification
+  支持通过串口修改日期和时间
+
+* Check whether the input date and weekday match
+  支持校验输入的日期和星期是否匹配
+
+* Support leap year and common year judgment
+  支持闰年和平年判断
+
+* Automatically handle date and time carry
+  支持日期和时间自动进位
+
+  * second to minute
+    秒进位到分
+
+  * minute to hour
+    分进位到时
+
+  * hour to day
+    时进位到天
+
+  * month-end carry
+    月末进位
+
+  * leap year February 29
+    闰年 2 月 29 日判断
+
+  * year carry
+    年份进位
+
+---
+
+## Hardware / 硬件环境
+
+| Module  | English                       | 中文                     |
+| ------- | ----------------------------- | ---------------------- |
+| MCU     | STM32F103C8T6                 | STM32F103C8T6 单片机      |
+| Display | OLED module                   | OLED 显示屏               |
+| UART    | USART2                        | USART2 串口              |
+| Timer   | TIM2                          | TIM2 定时器               |
+| Button  | PB5 external interrupt button | PB5 外部中断按键             |
+| IDE     | STM32CubeMX + Keil MDK        | STM32CubeMX + Keil MDK |
+
+---
+
+## Pin Configuration / 引脚配置
+
+| Function                    | Pin                         | 中文说明          |
+| --------------------------- | --------------------------- | ------------- |
+| USART2_TX                   | PA2                         | 串口2发送         |
+| USART2_RX                   | PA3                         | 串口2接收         |
+| Button / External Interrupt | PB5                         | 外部中断按键        |
+| OLED SCL                    | Depends on your OLED driver | 取决于你的 OLED 驱动 |
+| OLED SDA                    | Depends on your OLED driver | 取决于你的 OLED 驱动 |
+
+> The OLED pins depend on the OLED driver used in the project.
+> OLED 的具体引脚取决于你工程中使用的 OLED 驱动代码。
+
+---
+
+## STM32CubeMX Configuration / STM32CubeMX 配置
+
+### USART2 Configuration / USART2 配置
+
+| Parameter             | Value        | 中文说明       |
+| --------------------- | ------------ | ---------- |
+| Mode                  | Asynchronous | 异步模式       |
+| Baud Rate             | 115200       | 波特率 115200 |
+| Word Length           | 8 Bits       | 8 位数据位     |
+| Parity                | None         | 无校验        |
+| Stop Bits             | 1            | 1 位停止位     |
+| Hardware Flow Control | Disable      | 关闭硬件流控     |
+
+---
+
+### TIM2 Configuration / TIM2 配置
+
+TIM2 is used to generate a 1-second interrupt.
+
+TIM2 用于产生 1 秒一次的定时中断。
+
+If the system clock is 72 MHz:
+
+如果系统时钟为 72 MHz：
+
+| Parameter      | Value                        | 中文说明         |
+| -------------- | ---------------------------- | ------------ |
+| Clock Source   | Internal Clock               | 内部时钟         |
+| Prescaler      | 7199                         | 预分频值         |
+| Counter Period | 9999                         | 自动重装载值       |
+| NVIC           | Enable TIM2 global interrupt | 使能 TIM2 全局中断 |
+
+Calculation:
+
+计算公式：
+
+```text
+72 MHz / 7200 / 10000 = 1 Hz
+```
+
+So TIM2 enters the interrupt once per second.
+
+所以 TIM2 每 1 秒进入一次中断。
+
+---
+
+### PB5 External Interrupt / PB5 外部中断配置
+
+| Parameter         | Value                                                       | 中文说明       |
+| ----------------- | ----------------------------------------------------------- | ---------- |
+| GPIO Mode         | External Interrupt Mode with Falling edge trigger detection | 下降沿触发外部中断  |
+| Pull-up/Pull-down | Pull-up                                                     | 上拉输入       |
+| NVIC              | Enable EXTI line interrupt                                  | 使能 EXTI 中断 |
+
+---
+
+## UART Commands / 串口命令
+
+The serial assistant should use the following settings:
+
+串口助手建议使用以下配置：
 
 ```text
 Baud rate: 115200
@@ -141,39 +189,59 @@ Parity: None
 Send new line: enabled
 ```
 
-### Change Time
+中文说明：
+
+```text
+波特率：115200
+数据位：8
+停止位：1
+校验位：None
+发送新行：开启
+```
+
+---
+
+### Change Time / 修改时间
 
 Command format:
+
+命令格式：
 
 ```text
 change time:YYYYMMDD-HHMMSS-W
 ```
 
-Where:
+Field description:
 
-| Field | Meaning        |
-| ----- | -------------- |
-| YYYY  | Year           |
-| MM    | Month          |
-| DD    | Day            |
-| HH    | Hour           |
-| MM    | Minute         |
-| SS    | Second         |
-| W     | Weekday number |
+字段说明：
+
+| Field | English        | 中文   |
+| ----- | -------------- | ---- |
+| YYYY  | Year           | 年    |
+| MM    | Month          | 月    |
+| DD    | Day            | 日    |
+| HH    | Hour           | 时    |
+| MM    | Minute         | 分    |
+| SS    | Second         | 秒    |
+| W     | Weekday number | 星期编号 |
 
 Weekday definition:
 
-| Number | Weekday |
-| ------ | ------- |
-| 1      | Mon     |
-| 2      | Tue     |
-| 3      | Wed     |
-| 4      | Thu     |
-| 5      | Fri     |
-| 6      | Sat     |
-| 7      | Sun     |
+星期编号定义：
+
+| Number | Weekday | 中文  |
+| ------ | ------- | --- |
+| 1      | Mon     | 星期一 |
+| 2      | Tue     | 星期二 |
+| 3      | Wed     | 星期三 |
+| 4      | Thu     | 星期四 |
+| 5      | Fri     | 星期五 |
+| 6      | Sat     | 星期六 |
+| 7      | Sun     | 星期日 |
 
 Example:
+
+示例：
 
 ```text
 change time:20260609-100105-2
@@ -181,11 +249,15 @@ change time:20260609-100105-2
 
 If the date and weekday are correct, the board returns:
 
+如果日期和星期匹配，单片机会返回：
+
 ```text
 change time ok!
 ```
 
 If the date or weekday is wrong, the board returns:
+
+如果日期不存在，或者星期和日期不匹配，单片机会返回：
 
 ```text
 change time fail!
@@ -193,9 +265,11 @@ change time fail!
 
 ---
 
-### Stop Time
+### Stop Time / 暂停时间
 
 Command:
+
+命令：
 
 ```text
 stop time
@@ -203,15 +277,19 @@ stop time
 
 Return message:
 
+返回信息：
+
 ```text
 stop time ok!
 ```
 
 ---
 
-### Start Time
+### Start Time / 开始时间
 
 Command:
+
+命令：
 
 ```text
 start time
@@ -219,29 +297,37 @@ start time
 
 Return message:
 
+返回信息：
+
 ```text
 start time ok!
 ```
 
 ---
 
-## Test Cases
+## Test Cases / 测试用例
 
-### Valid Time Modification
+### 1. Valid Time Modification / 正确修改时间
 
 Input:
+
+输入：
 
 ```text
 change time:20260609-100105-2
 ```
 
-Expected result:
+Expected return:
+
+预期返回：
 
 ```text
 change time ok!
 ```
 
-OLED display:
+Expected OLED display:
+
+预期 OLED 显示：
 
 ```text
 2026.06.09 Tue
@@ -252,15 +338,19 @@ OLED display:
 
 ---
 
-### Invalid Weekday Test
+### 2. Invalid Weekday Test / 星期错误测试
 
 Input:
+
+输入：
 
 ```text
 change time:20260609-100105-3
 ```
 
-Expected result:
+Expected return:
+
+预期返回：
 
 ```text
 change time fail!
@@ -268,27 +358,36 @@ change time fail!
 
 Reason:
 
+原因：
+
 ```text
 2026.06.09 is Tuesday, not Wednesday.
+2026年6月9日是星期二，不是星期三。
 ```
 
 ---
 
-### Leap Year Carry Test
+### 3. Leap Year Carry Test / 闰年进位测试
 
 Input:
+
+输入：
 
 ```text
 change time:20000228-235958-1
 ```
 
-Expected result:
+Expected return:
+
+预期返回：
 
 ```text
 change time ok!
 ```
 
 After 2 seconds, OLED should display:
+
+2 秒后，OLED 应显示：
 
 ```text
 2000.02.29 Tue
@@ -299,21 +398,36 @@ After 2 seconds, OLED should display:
 
 Reason:
 
+原因：
+
 ```text
 The year 2000 is a leap year.
+2000年是闰年，所以2月28日之后会进入2月29日。
 ```
 
 ---
 
-### Common Year Test
+### 4. Common Year Carry Test / 平年进位测试
 
 Input:
+
+输入：
 
 ```text
 change time:20010228-235958-3
 ```
 
+Expected return:
+
+预期返回：
+
+```text
+change time ok!
+```
+
 After 2 seconds, OLED should display:
+
+2 秒后，OLED 应显示：
 
 ```text
 2001.03.01 Thu
@@ -324,50 +438,188 @@ After 2 seconds, OLED should display:
 
 Reason:
 
+原因：
+
 ```text
 The year 2001 is not a leap year.
+2001年不是闰年，所以2月28日之后会进入3月1日。
 ```
 
 ---
 
-## Main Logic
+### 5. Invalid Date Test / 非法日期测试
 
-The project mainly contains the following logic:
+Input:
 
-1. `Calendar_IsLeapYear()`
+输入：
 
-   Determines whether the current year is a leap year.
+```text
+change time:20010229-235958-4
+```
 
-2. `Calendar_GetMonthDays()`
+Expected return:
 
-   Returns the number of days in the current month.
+预期返回：
 
-3. `Calendar_CalcWeek()`
+```text
+change time fail!
+```
 
-   Calculates the weekday according to the date.
+Reason:
 
-4. `Calendar_IsValid()`
+原因：
 
-   Checks whether the input date, time, and weekday are valid.
-
-5. `Calendar_AddOneSecond()`
-
-   Adds one second and handles all carry operations.
-
-6. `Calendar_ShowOLED()`
-
-   Refreshes OLED display.
-   Only the changed lines are refreshed to reduce flicker.
-
-7. `Calendar_ProcessCommand()`
-
-   Parses UART commands and performs the corresponding operation.
+```text
+2001 is not a leap year, so February 29 does not exist.
+2001年不是闰年，所以2001年2月29日不存在。
+```
 
 ---
 
-## Project Structure
+## Main Code Logic / 主要代码逻辑
+
+### `Calendar_IsLeapYear()`
+
+Determines whether the current year is a leap year.
+
+判断当前年份是否为闰年。
+
+Leap year rule:
+
+闰年判断规则：
+
+```text
+1. If the year can be divided by 400, it is a leap year.
+2. If the year can be divided by 4 but not by 100, it is a leap year.
+3. Otherwise, it is a common year.
+```
+
+中文：
+
+```text
+1. 能被400整除的是闰年。
+2. 能被4整除但不能被100整除的是闰年。
+3. 其他情况是平年。
+```
+
+---
+
+### `Calendar_GetMonthDays()`
+
+Returns the number of days in the current month.
+
+返回当前月份的最大天数。
+
+For February, the function returns 29 days in a leap year and 28 days in a common year.
+
+对于 2 月，闰年返回 29 天，平年返回 28 天。
+
+---
+
+### `Calendar_CalcWeek()`
+
+Calculates the weekday according to the input date.
+
+根据输入日期计算对应星期。
+
+This is used to check whether the weekday number entered through UART is correct.
+
+该函数用于判断串口输入的星期编号是否正确。
+
+---
+
+### `Calendar_IsValid()`
+
+Checks whether the input date, time, and weekday are valid.
+
+检查输入的日期、时间和星期是否合法。
+
+It checks:
+
+检查内容包括：
+
+* whether the month is between 1 and 12
+  月份是否在 1 到 12 之间
+
+* whether the day is valid for the current month
+  日期是否超过当前月份最大天数
+
+* whether hour, minute, and second are valid
+  时、分、秒是否合法
+
+* whether the weekday matches the date
+  输入星期是否和实际日期匹配
+
+---
+
+### `Calendar_AddOneSecond()`
+
+Adds one second to the current time and handles all carry operations.
+
+给当前时间加 1 秒，并处理所有进位逻辑。
+
+It handles:
+
+该函数处理：
+
+* second carry
+  秒进位
+
+* minute carry
+  分进位
+
+* hour carry
+  时进位
+
+* day carry
+  天进位
+
+* month carry
+  月进位
+
+* year carry
+  年进位
+
+* leap year February carry
+  闰年 2 月进位
+
+---
+
+### `Calendar_ShowOLED()`
+
+Refreshes the OLED display.
+
+刷新 OLED 显示内容。
+
+To reduce flicker, only changed lines are refreshed.
+
+为了减少 OLED 闪烁，程序只刷新发生变化的行。
+
+---
+
+### `Calendar_ProcessCommand()`
+
+Parses UART commands and performs the corresponding operation.
+
+解析串口命令，并执行对应操作。
+
+Supported commands:
+
+支持的命令：
+
+```text
+change time:YYYYMMDD-HHMMSS-W
+stop time
+start time
+```
+
+---
+
+## Project Structure / 工程结构
 
 A typical STM32CubeMX project structure is shown below:
+
+典型 STM32CubeMX 工程结构如下：
 
 ```text
 STM32F103-Calendar-Clock/
@@ -382,17 +634,59 @@ STM32F103-Calendar-Clock/
 
 ---
 
-## Notes
+## Notes / 注意事项
 
 * Do not delete the `USER CODE BEGIN` and `USER CODE END` areas generated by STM32CubeMX.
-* If STM32CubeMX regenerates the code, check whether user code is still kept correctly.
+  不要删除 STM32CubeMX 生成的 `USER CODE BEGIN` 和 `USER CODE END` 区域。
+
+* If STM32CubeMX regenerates the code, check whether your user code is still kept correctly.
+  如果重新使用 STM32CubeMX 生成代码，需要检查用户代码是否被正确保留。
+
 * TIM2 must be configured as **Internal Clock**.
+  TIM2 必须配置为 **Internal Clock**。
+
 * TIM2 global interrupt must be enabled.
+  必须使能 TIM2 全局中断。
+
 * USART2 interrupt must be enabled.
-* If the OLED flickers, avoid clearing all four lines every second. Only refresh the line that changes.
+  必须使能 USART2 中断。
+
+* The serial assistant should enable newline sending, such as `\r\n`.
+  串口助手建议开启发送新行，例如发送 `\r\n`。
+
+* If the OLED flickers, avoid clearing all four lines every second.
+  如果 OLED 闪烁，不要每秒清空四行，应只刷新变化的行。
 
 ---
 
-## License
+## Possible Improvements / 可改进方向
+
+* Add RTC support for more accurate timekeeping
+  加入 RTC，提高掉电后和长时间运行时的计时准确性
+
+* Add backup battery support
+  加入后备电池支持
+
+* Add menu control with more buttons
+  增加按键菜单控制
+
+* Add alarm clock function
+  增加闹钟功能
+
+* Add temperature and humidity display
+  增加温湿度显示
+
+* Add Chinese weekday display
+  增加中文星期显示
+
+---
+
+## License / 开源协议
 
 This project is released for learning and educational use.
+
+本项目主要用于 STM32 入门学习、课程实验和嵌入式基础训练。
+
+You can use, modify, and share this project for educational purposes.
+
+你可以将本项目用于学习、修改和二次开发。
