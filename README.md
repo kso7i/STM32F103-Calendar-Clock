@@ -232,6 +232,11 @@ Send new line: enabled
 <img width="707" height="555" alt="2026-06-09_09h07_46" src="https://github.com/user-attachments/assets/9b4a130a-d27e-4ca8-ad8e-73af04610a7d" />
 
 ---
+## How to Import the Complete Project
+
+
+https://github.com/user-attachments/assets/1200f98e-a119-46aa-af29-e4f961728bda
+
 
 ### Change Time / 修改时间
 
