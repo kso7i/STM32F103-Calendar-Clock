@@ -29,7 +29,7 @@ If the current year is a leap year:
 ```text
 2028.06.08 Thu
 08:09:15
-2407224
+240721999
 2028是闰年
 ```
 ## Display Example
@@ -113,6 +113,19 @@ Display description:
 
 ---
 
+---
+
+## Wiring Diagram / 接线原理图
+
+| Module                   | English Wiring                                          | 中文接线说明                                           |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------------ |
+| OLED Display             | VCC → 3.3V, GND → GND, SDA → board PA9, SCL → board PA8 | VCC 接 3.3V，GND 接 GND，SDA 接开发板 PA9，SCL 接开发板 PA8   |
+| USB-to-Serial Downloader | TX → board PA3, RX → board PA2, GND → GND               | TX 接开发板 PA3，RX 接开发板 PA2，GND 接 GND                |
+| ST-Link Downloader       | 3.3V → 3V3, GND → GND, SWDIO → SWDIO, SWCLK → SWCLK     | 3.3V 接 3V3，GND 接 GND，SWDIO 接 SWDIO，SWCLK 接 SWCLK |
+
+
+
+
 ## Pin Configuration / 引脚配置
 
 | Function                    | Pin                         | 中文说明          |
@@ -120,11 +133,12 @@ Display description:
 | USART2_TX                   | PA2                         | 串口2发送         |
 | USART2_RX                   | PA3                         | 串口2接收         |
 | Button / External Interrupt | PB5                         | 外部中断按键        |
-| OLED SCL                    | Depends on your OLED driver | 取决于你的 OLED 驱动 |
-| OLED SDA                    | Depends on your OLED driver | 取决于你的 OLED 驱动 |
+| OLED SCL                    | board PA8                   | 取决于你的 OLED 驱动 |
+| OLED SDA                    | board PA9                   | 取决于你的 OLED 驱动 |
 
-> The OLED pins depend on the OLED driver used in the project.
-> OLED 的具体引脚取决于你工程中使用的 OLED 驱动代码。
+> The specific pins of the OLED display depend on the OLED driver code used in your project.  
+In this project: SDA → board PA9, SCL → board PA8.
+> OLED小屏幕 的具体引脚取决于你工程中使用的 OLED 驱动代码。我的工程使用的是SDA → board PA9, SCL → board PA8
 
 ---
 
