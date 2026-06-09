@@ -93,14 +93,21 @@ Display description:
 
 ## Hardware / 硬件环境
 
-| Module  | English                       | 中文                     |
-| ------- | ----------------------------- | ---------------------- |
-| MCU     | STM32F103C8T6                 | STM32F103C8T6 单片机      |
-| Display | OLED module                   | OLED 显示屏               |
-| UART    | USART2                        | USART2 串口              |
-| Timer   | TIM2                          | TIM2 定时器               |
-| Button  | PB5 external interrupt button | PB5 外部中断按键             |
-| IDE     | STM32CubeMX + Keil MDK        | STM32CubeMX + Keil MDK |
+| Module     | English                    | 中文                    |
+|------------|----------------------------|-------------------------|
+| MCU        | STM32F103C8T6              | STM32F103C8T6 单片机     |
+| Display    | OLED module                | OLED 显示屏              |
+| Downloader | USB-to-serial downloader   | USB 转串口下载器         |
+| Wire       | Dupont wires               | 杜邦线                  |
+| Debugger   | DAP-Link or ST-Link        | DAP-Link 或 ST-Link      |
+
+## Software / 软件环境
+
+| Software   | English                    | 中文           |
+|------------|----------------------------|----------------|
+| CubeMX     | STM32CubeMX                | STM32 配置工具 |
+| Keil       | Keil MDK                   | Keil 编译软件  |
+| Serial Tool| Serial debugging assistant | 串口调试助手   |
 
 ---
 
