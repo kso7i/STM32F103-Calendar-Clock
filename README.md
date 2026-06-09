@@ -125,7 +125,6 @@ Display description:
 
 
 
-
 ## Pin Configuration / 引脚配置
 
 | Function                    | Pin                         | 中文说明          |
@@ -140,6 +139,12 @@ Display description:
 In this project: SDA → board PA9, SCL → board PA8.
 
 > OLED小屏幕 的具体引脚取决于你工程中使用的 OLED 驱动代码。我的工程使用的接线是:SDA → board PA9, SCL → board PA8
+<img width="1906" height="1410" alt="2026-06-09_08h55_09" src="https://github.com/user-attachments/assets/f4d2f80c-17c0-4f9d-b425-61b2a18a0895" />
+<img width="1004" height="1316" alt="2026-06-09_08h55_55" src="https://github.com/user-attachments/assets/7679c9b9-0214-459d-8e20-f0101a7bf3b0" />
+<img width="1906" height="1410" alt="2026-06-09_08h56_13" src="https://github.com/user-attachments/assets/95f5708f-8a44-4f72-8e7c-d197f2a7ef80" />
+<img width="1906" height="1410" alt="2026-06-09_08h56_22" src="https://github.com/user-attachments/assets/d1522c74-d803-4e63-84f9-be76b81fb96e" />
+<img width="1906" height="1410" alt="2026-06-09_08h56_30" src="https://github.com/user-attachments/assets/1e8722fd-37f7-4148-9acb-d4ab56112a06" />
+
 
 ---
 
