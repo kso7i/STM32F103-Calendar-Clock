@@ -139,11 +139,7 @@ Display description:
 In this project: SDA → board PA9, SCL → board PA8.
 
 > OLED小屏幕 的具体引脚取决于你工程中使用的 OLED 驱动代码。我的工程使用的接线是:SDA → board PA9, SCL → board PA8
-<img width="1906" height="1410" alt="2026-06-09_08h55_09" src="https://github.com/user-attachments/assets/f4d2f80c-17c0-4f9d-b425-61b2a18a0895" />
-<img width="1004" height="1316" alt="2026-06-09_08h55_55" src="https://github.com/user-attachments/assets/7679c9b9-0214-459d-8e20-f0101a7bf3b0" />
-<img width="1906" height="1410" alt="2026-06-09_08h56_13" src="https://github.com/user-attachments/assets/95f5708f-8a44-4f72-8e7c-d197f2a7ef80" />
-<img width="1906" height="1410" alt="2026-06-09_08h56_22" src="https://github.com/user-attachments/assets/d1522c74-d803-4e63-84f9-be76b81fb96e" />
-<img width="1906" height="1410" alt="2026-06-09_08h56_30" src="https://github.com/user-attachments/assets/1e8722fd-37f7-4148-9acb-d4ab56112a06" />
+
 
 
 ---
@@ -160,6 +156,8 @@ In this project: SDA → board PA9, SCL → board PA8.
 | Parity                | None         | 无校验        |
 | Stop Bits             | 1            | 1 位停止位     |
 | Hardware Flow Control | Disable      | 关闭硬件流控     |
+<img width="1906" height="1410" alt="2026-06-09_08h56_22" src="https://github.com/user-attachments/assets/d43a5f38-a0ae-4ffc-87ef-d70a5e4e78e4" />
+<img width="1906" height="1410" alt="2026-06-09_08h56_30" src="https://github.com/user-attachments/assets/1db5b016-cece-410b-a11a-c6a6711712ce" />
 
 ---
 
@@ -191,6 +189,8 @@ Calculation:
 So TIM2 enters the interrupt once per second.
 
 所以 TIM2 每 1 秒进入一次中断。
+<img width="1004" height="1316" alt="2026-06-09_08h55_55" src="https://github.com/user-attachments/assets/796e1e93-2369-415e-a88f-4c618ec3aa4c" />
+<img width="1906" height="1410" alt="2026-06-09_08h56_13" src="https://github.com/user-attachments/assets/162aa4c2-d0da-4971-a6e8-a1b97a4ab215" />
 
 ---
 
@@ -201,6 +201,8 @@ So TIM2 enters the interrupt once per second.
 | GPIO Mode         | External Interrupt Mode with Falling edge trigger detection | 下降沿触发外部中断  |
 | Pull-up/Pull-down | Pull-up                                                     | 上拉输入       |
 | NVIC              | Enable EXTI line interrupt                                  | 使能 EXTI 中断 |
+<img width="1906" height="1410" alt="2026-06-09_09h17_28" src="https://github.com/user-attachments/assets/654ae8f5-9ba8-4c0d-b9e7-06fe77e78e4e" />
+<img width="1906" height="1410" alt="2026-06-09_09h17_20" src="https://github.com/user-attachments/assets/e6a5ed77-3507-4e98-8944-bd5835ebedb4" />
 
 ---
 
@@ -227,6 +229,7 @@ Send new line: enabled
 校验位：None
 发送新行：开启
 ```
+<img width="707" height="555" alt="2026-06-09_09h07_46" src="https://github.com/user-attachments/assets/9b4a130a-d27e-4ca8-ad8e-73af04610a7d" />
 
 ---
 
