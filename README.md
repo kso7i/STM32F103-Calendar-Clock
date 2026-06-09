@@ -133,12 +133,13 @@ Display description:
 | USART2_TX                   | PA2                         | 串口2发送         |
 | USART2_RX                   | PA3                         | 串口2接收         |
 | Button / External Interrupt | PB5                         | 外部中断按键        |
-| OLED SCL                    | board PA8                   | 取决于你的 OLED 驱动 |
-| OLED SDA                    | board PA9                   | 取决于你的 OLED 驱动 |
+| OLED SCL                    | board PA8                   | 开发板 PA8  |
+| OLED SDA                    | board PA9                   | 开发板 PA9|
 
 > The specific pins of the OLED display depend on the OLED driver code used in your project.  
 In this project: SDA → board PA9, SCL → board PA8.
-> OLED小屏幕 的具体引脚取决于你工程中使用的 OLED 驱动代码。我的工程使用的是SDA → board PA9, SCL → board PA8
+
+> OLED小屏幕 的具体引脚取决于你工程中使用的 OLED 驱动代码。我的工程使用的接线是:SDA → board PA9, SCL → board PA8
 
 ---
 
