@@ -474,134 +474,15 @@ Reason:
 2001年不是闰年，所以2001年2月29日不存在。
 ```
 
----
 
-## Main Code Logic / 主要代码逻辑
 
-### `Calendar_IsLeapYear()`
 
-Determines whether the current year is a leap year.
 
-判断当前年份是否为闰年。
-
-Leap year rule:
-
-闰年判断规则：
-
-```text
-1. If the year can be divided by 400, it is a leap year.
-2. If the year can be divided by 4 but not by 100, it is a leap year.
-3. Otherwise, it is a common year.
-```
-
-中文：
-
-```text
-1. 能被400整除的是闰年。
-2. 能被4整除但不能被100整除的是闰年。
-3. 其他情况是平年。
-```
 
 ---
 
-### `Calendar_GetMonthDays()`
 
-Returns the number of days in the current month.
 
-返回当前月份的最大天数。
-
-For February, the function returns 29 days in a leap year and 28 days in a common year.
-
-对于 2 月，闰年返回 29 天，平年返回 28 天。
-
----
-
-### `Calendar_CalcWeek()`
-
-Calculates the weekday according to the input date.
-
-根据输入日期计算对应星期。
-
-This is used to check whether the weekday number entered through UART is correct.
-
-该函数用于判断串口输入的星期编号是否正确。
-
----
-
-### `Calendar_IsValid()`
-
-Checks whether the input date, time, and weekday are valid.
-
-检查输入的日期、时间和星期是否合法。
-
-It checks:
-
-检查内容包括：
-
-* whether the month is between 1 and 12
-  月份是否在 1 到 12 之间
-
-* whether the day is valid for the current month
-  日期是否超过当前月份最大天数
-
-* whether hour, minute, and second are valid
-  时、分、秒是否合法
-
-* whether the weekday matches the date
-  输入星期是否和实际日期匹配
-
----
-
-### `Calendar_AddOneSecond()`
-
-Adds one second to the current time and handles all carry operations.
-
-给当前时间加 1 秒，并处理所有进位逻辑。
-
-It handles:
-
-该函数处理：
-
-* second carry
-  秒进位
-
-* minute carry
-  分进位
-
-* hour carry
-  时进位
-
-* day carry
-  天进位
-
-* month carry
-  月进位
-
-* year carry
-  年进位
-
-* leap year February carry
-  闰年 2 月进位
-
----
-
-### `Calendar_ShowOLED()`
-
-Refreshes the OLED display.
-
-刷新 OLED 显示内容。
-
-To reduce flicker, only changed lines are refreshed.
-
-为了减少 OLED 闪烁，程序只刷新发生变化的行。
-
----
-
-### `Calendar_ProcessCommand()`
-
-Parses UART commands and performs the corresponding operation.
-
-解析串口命令，并执行对应操作。
 
 Supported commands:
 
@@ -613,24 +494,6 @@ stop time
 start time
 ```
 
----
-
-## Project Structure / 工程结构
-
-A typical STM32CubeMX project structure is shown below:
-
-典型 STM32CubeMX 工程结构如下：
-
-```text
-STM32F103-Calendar-Clock/
-├── Core/
-│   ├── Inc/
-│   └── Src/
-├── Drivers/
-├── MDK-ARM/
-├── README.md
-└── STM32F103-Calendar-Clock.ioc
-```
 
 ---
 
@@ -657,27 +520,7 @@ STM32F103-Calendar-Clock/
 * If the OLED flickers, avoid clearing all four lines every second.
   如果 OLED 闪烁，不要每秒清空四行，应只刷新变化的行。
 
----
 
-## Possible Improvements / 可改进方向
-
-* Add RTC support for more accurate timekeeping
-  加入 RTC，提高掉电后和长时间运行时的计时准确性
-
-* Add backup battery support
-  加入后备电池支持
-
-* Add menu control with more buttons
-  增加按键菜单控制
-
-* Add alarm clock function
-  增加闹钟功能
-
-* Add temperature and humidity display
-  增加温湿度显示
-
-* Add Chinese weekday display
-  增加中文星期显示
 
 ---
 
