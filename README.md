@@ -20,6 +20,7 @@ OLED 显示示例：
 2407224
 2026是平年
 ```
+<img width="930" height="546" alt="2026-06-09_08h33_04" src="https://github.com/user-attachments/assets/0f91bd01-4ef2-4834-b65f-1d0b8a7deafc" />
 
 If the current year is a leap year:
 
